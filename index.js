@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   StyleSheet,
@@ -14,10 +14,16 @@ const CarouselComponent = ({
   onMenuItemClick,
   onCarouselItemClick,
 }) => {
-  const [carouselItems, setCarouselItems] = useState(carouselData[0]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [carouselItems, setCarouselItems] = useState(carouselData[0] || []);
+
+  useEffect(() => {
+    setCarouselItems(carouselData[activeIndex] || []);
+  }, [carouselData, activeIndex]);
 
   const handleMenuItemClick = (index) => {
-    setCarouselItems(carouselData[index]);
+    setActiveIndex(index);
+    setCarouselItems(carouselData[index] || []);
     onMenuItemClick(index);
   };
 
@@ -29,10 +35,7 @@ const CarouselComponent = ({
     <View style={styles.container}>
       <View style={styles.menu}>
         {menuItems.map((item, index) => (
-          <TouchableOpacity
-            key={index}
-            onPress={() => handleMenuItemClick(index)}
-          >
+          <TouchableOpacity key={index} onPress={() => handleMenuItemClick(index)}>
             {renderMenuItems(item)}
           </TouchableOpacity>
         ))}
