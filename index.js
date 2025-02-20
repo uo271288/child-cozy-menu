@@ -1,10 +1,8 @@
 import React, { useState } from "react";
 import {
   View,
-  Text,
   StyleSheet,
   ScrollView,
-  Image,
   TouchableOpacity,
 } from "react-native";
 
@@ -12,6 +10,7 @@ const CarouselComponent = ({
   menuItems,
   carouselData,
   renderCarouselItem,
+  renderMenuItems,
   onMenuItemClick,
   onCarouselItemClick,
 }) => {
@@ -34,14 +33,7 @@ const CarouselComponent = ({
             key={index}
             onPress={() => handleMenuItemClick(index)}
           >
-            <View style={styles.menuItem}>
-              <Image
-                source={{ uri: item.image }}
-                style={styles.menuImage}
-                resizeMode="contain"
-              />
-              <Text style={styles.menuText}>{item.title}</Text>
-            </View>
+            {renderMenuItems(item)}
           </TouchableOpacity>
         ))}
       </View>
@@ -68,22 +60,11 @@ const styles = StyleSheet.create({
   },
   menu: {
     flexDirection: "row",
+    flexWrap: "wrap",
     justifyContent: "center",
+    width: "80%",
     marginBottom: 20,
     marginTop: 20,
-  },
-  menuItem: {
-    alignItems: "center",
-    marginHorizontal: 10,
-  },
-  menuImage: {
-    width: 75,
-    height: 75,
-  },
-  menuText: {
-    marginTop: 5,
-    fontSize: 14,
-    textAlign: "center",
   },
   scrollViewContent: {
     alignItems: "center",
